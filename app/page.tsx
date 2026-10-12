@@ -6,7 +6,7 @@ import GenZDictionary from "@/components/GenZDictionary";
 import ScamAlertsAndReminders from "@/components/ScamAlertsAndReminders";
 import FamilyGames from "@/components/games/FamilyGames";
 import StoryTree from "@/components/StoryTree";
-import PaywallModal from "@/components/PaywallModal";
+import PaywallModal from "@/components/PayWallModal"; // Chú ý chữ W viết hoa ở PayWallModal
 import { useFamily } from "@/context/FamilyContext";
 
 export default function HomePage() {
