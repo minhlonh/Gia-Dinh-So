@@ -1,10 +1,17 @@
-export type PlanId = "month" | "year";
+export function getRemainingUsage(): number {
+  if (typeof window === "undefined") return 5;
+  const current = parseInt(localStorage.getItem("gia_dinh_so_usage") || "0", 10);
+  return Math.max(0, 5 - current);
+}
 
-export const PLANS: Record<PlanId, { price: number; days: number }> = {
-  month: { price: 49000, days: 30 },
-  year: { price: 399000, days: 365 },
-};
+export function incrementUsage(): number {
+  if (typeof window === "undefined") return 5;
+  const current = parseInt(localStorage.getItem("gia_dinh_so_usage") || "0", 10);
+  const next = current + 1;
+  localStorage.setItem("gia_dinh_so_usage", next.toString());
 
-export const YEAR_SAVING_PERCENT = Math.round(
-  (1 - PLANS.year.price / (PLANS.month.price * 12)) * 100,
-);
+  // Báo hiệu cho HeaderBar và PayWallModal cập nhật lại giao diện lập tức
+  window.dispatchEvent(new Event("usage-updated"));
+
+  return Math.max(0, 5 - next);
+}
