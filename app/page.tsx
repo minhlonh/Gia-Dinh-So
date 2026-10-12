@@ -6,7 +6,7 @@ import GenZDictionary from "@/components/GenZDictionary";
 import ScamAlertsAndReminders from "@/components/ScamAlertsAndReminders";
 import FamilyGames from "@/components/games/FamilyGames";
 import StoryTree from "@/components/StoryTree";
-import PaywallModal from "@/components/PayWallModal"; // Chú ý chữ W viết hoa ở PayWallModal
+import PayWallModal from "@/components/PayWallModal"; // Chú ý chữ W viết HOA
 import { useFamily } from "@/context/FamilyContext";
 
 export default function HomePage() {
@@ -27,7 +27,8 @@ export default function HomePage() {
           </>
         )}
       </main>
-      <PaywallModal />
+      {/* Modal giới hạn lượt dùng & thanh toán */}
+      <PayWallModal />
     </AdaptiveWrapper>
   );
 }
