@@ -1,24 +1,33 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import { FamilyProvider } from '@/context/FamilyContext';
+"use client";
 
-export const metadata: Metadata = {
-  title: 'Gia Đình Số - Kết Nối Đa Thế Hệ',
-  description: 'Nền tảng ứng dụng gắn kết tình cảm gia đình, bảo tồn ký ức và bảo vệ người lớn tuổi.',
-};
+import { AdaptiveWrapper } from "@/components/AdaptiveWrapper";
+import { FamilySetup, MemberManager } from "@/components/FamilySetup";
+import GenZDictionary from "@/components/GenZDictionary";
+import ScamAlertsAndReminders from "@/components/ScamAlertsAndReminders";
+import FamilyGames from "@/components/games/FamilyGames";
+import StoryTree from "@/components/StoryTree";
+import PaywallModal from "@/components/PaywallModal";
+import { useFamily } from "@/context/FamilyContext";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function HomePage() {
+  const { family } = useFamily();
+
   return (
-    <html lang="vi">
-      <body>
-        <FamilyProvider>
-          {children}
-        </FamilyProvider>
-      </body>
-    </html>
+    <AdaptiveWrapper>
+      <main className="mx-auto max-w-5xl space-y-8 p-4 sm:p-6">
+        {!family ? (
+          <FamilySetup />
+        ) : (
+          <>
+            <MemberManager />
+            <GenZDictionary />
+            <ScamAlertsAndReminders />
+            <StoryTree />
+            <FamilyGames />
+          </>
+        )}
+      </main>
+      <PaywallModal />
+    </AdaptiveWrapper>
   );
 }
