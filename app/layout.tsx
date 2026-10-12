@@ -6,6 +6,7 @@ import { FamilyProvider, useFamily } from "@/context/FamilyContext";
 import { Heart, Globe } from "lucide-react";
 import PayWallModal from "@/components/PayWallModal";
 import { LANGS } from "@/lib/i18n";
+import { getRemainingUsage } from "@/lib/usage";
 
 function HeaderBar() {
   const [email, setEmail] = useState("");
@@ -14,8 +15,17 @@ function HeaderBar() {
   const { lang, setLang } = useFamily();
 
   useEffect(() => {
-    const used = parseInt(localStorage.getItem("gia_dinh_so_usage") || "0", 10);
-    setRemainingUsage(Math.max(0, 5 - used));
+    const updateUsage = () => {
+      const remaining = getRemainingUsage();
+      setRemainingUsage(remaining);
+      if (remaining === 0) {
+        setShowPaywall(true);
+      }
+    };
+
+    updateUsage();
+    window.addEventListener("usage-updated", updateUsage);
+    return () => window.removeEventListener("usage-updated", updateUsage);
   }, []);
 
   const handleSendLink = (e: React.FormEvent) => {
@@ -29,7 +39,6 @@ function HeaderBar() {
     <>
       <header className="w-full border-b border-stone-200 bg-amber-50/80 backdrop-blur-md px-4 py-4 sm:px-8">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
-          {/* Logo & Slogan */}
           <div className="flex items-center gap-3">
             <div className="grid h-12 w-12 place-items-center rounded-2xl bg-red-500 text-white shadow-md">
               <Heart className="h-7 w-7 fill-current" />
@@ -42,7 +51,6 @@ function HeaderBar() {
             </div>
           </div>
 
-          {/* Ô Email + Nút Lượt dùng thử + Đổi Ngôn ngữ */}
           <div className="flex flex-wrap items-center gap-3">
             <form onSubmit={handleSendLink} className="flex items-center gap-2">
               <input
@@ -86,7 +94,6 @@ function HeaderBar() {
         </div>
       </header>
 
-      {/* Gọi PayWallModal không cần truyền prop onClose */}
       {showPaywall && <PayWallModal />}
     </>
   );
