@@ -8,15 +8,9 @@ import FamilyGames from "@/components/games/FamilyGames";
 import StoryTree from "@/components/StoryTree";
 import PayWallModal from "@/components/PayWallModal";
 import { useFamily } from "@/context/FamilyContext";
-import { incrementUsage } from "@/lib/usage";
 
 export default function HomePage() {
   const { family } = useFamily();
-
-  // Bắt sự kiện người dùng nhấp vào các tính năng để tính 1 lần dùng
-  const handleFeatureClick = () => {
-    incrementUsage();
-  };
 
   return (
     <AdaptiveWrapper>
@@ -24,13 +18,13 @@ export default function HomePage() {
         {!family ? (
           <FamilySetup />
         ) : (
-          <div onClickCapture={handleFeatureClick}>
+          <>
             <MemberManager />
             <GenZDictionary />
             <ScamAlertsAndReminders />
             <StoryTree />
             <FamilyGames />
-          </div>
+          </>
         )}
       </main>
       <PayWallModal />
