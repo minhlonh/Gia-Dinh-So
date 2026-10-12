@@ -10,10 +10,9 @@ import { LANGS } from "@/lib/i18n";
 function HeaderBar() {
   const [email, setEmail] = useState("");
   const [showPaywall, setShowPaywall] = useState(false);
-  const [remainingUsage, setRemainingUsage] = useState(5); // Số lượt dùng thử còn lại
+  const [remainingUsage, setRemainingUsage] = useState(5);
   const { lang, setLang } = useFamily();
 
-  // Đọc số lượt dùng còn lại từ localStorage
   useEffect(() => {
     const used = parseInt(localStorage.getItem("gia_dinh_so_usage") || "0", 10);
     setRemainingUsage(Math.max(0, 5 - used));
@@ -45,7 +44,6 @@ function HeaderBar() {
 
           {/* Ô Email + Nút Lượt dùng thử + Đổi Ngôn ngữ */}
           <div className="flex flex-wrap items-center gap-3">
-            {/* Form nhập Email */}
             <form onSubmit={handleSendLink} className="flex items-center gap-2">
               <input
                 type="email"
@@ -62,7 +60,6 @@ function HeaderBar() {
               </button>
             </form>
 
-            {/* Nút Còn X lượt dùng thử (Bấm vào mở Modal Bảng Giá) */}
             <button
               type="button"
               onClick={() => setShowPaywall(true)}
@@ -71,7 +68,6 @@ function HeaderBar() {
               Còn {remainingUsage} lượt dùng thử
             </button>
 
-            {/* Selector Đổi Ngôn ngữ */}
             <div className="relative flex items-center">
               <Globe className="absolute left-3.5 h-4 w-4 text-stone-700 pointer-events-none" />
               <select
@@ -90,8 +86,8 @@ function HeaderBar() {
         </div>
       </header>
 
-      {/* Modal Bảng Giá / Thanh Toán */}
-      {showPaywall && <PayWallModal onClose={() => setShowPaywall(false)} />}
+      {/* Gọi PayWallModal không cần truyền prop onClose */}
+      {showPaywall && <PayWallModal />}
     </>
   );
 }
