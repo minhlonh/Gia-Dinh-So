@@ -6,7 +6,7 @@ import { FamilyProvider, useFamily } from "@/context/FamilyContext";
 import { Heart, Globe } from "lucide-react";
 import PayWallModal from "@/components/PayWallModal";
 import { LANGS } from "@/lib/i18n";
-import { getRemainingUsage } from "@/lib/usage";
+import { getRemainingUsage } from "@/lib/pricing";
 
 function HeaderBar() {
   const [email, setEmail] = useState("");
@@ -25,7 +25,11 @@ function HeaderBar() {
 
     updateUsage();
     window.addEventListener("usage-updated", updateUsage);
-    return () => window.removeEventListener("usage-updated", updateUsage);
+    window.addEventListener("storage", updateUsage);
+    return () => {
+      window.removeEventListener("usage-updated", updateUsage);
+      window.removeEventListener("storage", updateUsage);
+    };
   }, []);
 
   const handleSendLink = (e: React.FormEvent) => {
